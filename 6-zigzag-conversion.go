@@ -1,31 +1,30 @@
+
 func convert(s string, numRows int) string {
-	if numRows <= 1 {
+	if numRows == 1 || len(s) <= numRows {
 		return s
 	}
 
-	rows := make([]string, numRows)
+	res := bytes.Buffer{}
+	p := numRows*2 - 2
 
-	goingDown := false
-	row := 0
+	for i := 0; i < len(s); i += p {
+		res.WriteByte(s[i])
+	}
 
-	for _, char := range s {
-		rows[row] += string(char)
+	for r := 1; r <= numRows-2; r++ {
+		res.WriteByte(s[r])
 
-		if (row == 0) || (row == numRows-1) {
-			goingDown = !goingDown
-		}
-
-		if goingDown {
-			row++
-		} else {
-			row--
+		for k := p; k-r < len(s); k += p {
+			res.WriteByte(s[k-r])
+			if k+r < len(s) {
+				res.WriteByte(s[k+r])
+			}
 		}
 	}
 
-	result := ""
-	for _, row := range rows {
-		result += row
+	for i := numRows - 1; i < len(s); i += p {
+		res.WriteByte(s[i])
 	}
 
-	return result
+	return res.String()
 }
