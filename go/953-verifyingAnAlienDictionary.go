@@ -1,21 +1,24 @@
-func isAlienSorted(words []string, order string) bool {
-	orderMap := make(map[byte]int)
-	for i := 0; i < len(order); i++ {
-		orderMap[order[i]] = i
-	}
-
-	return sort.SliceIsSorted(words, func(i, j int) bool {
-		x, y := words[i], words[j]
-		minLength := len(x)
-		if len(y) < len(x) {
-			minLength = len(y)
-		}
-
-		for z := 0; z < minLength; z++ {
-			if x[z] != y[z] {
-				return orderMap[x[z]] < orderMap[y[z]]
-			}
-		}
-		return len(x) <= len(y)
-	})
+if len(words) < 2 {
+	return true
 }
+hash := make(map[byte]int)
+for i := 0; i < len(order); i++ {
+	hash[order[i]] = i
+}
+for i := 0; i < len(words)-1; i++ {
+	pointer, word, wordplus := 0, words[i], words[i+1]
+	for pointer < len(word) && pointer < len(wordplus) {
+		if hash[word[pointer]] > hash[wordplus[pointer]] {
+			return false
+		}
+		if hash[word[pointer]] < hash[wordplus[pointer]] {
+			break
+		} else {
+			pointer = pointer + 1
+		}
+	}
+	if pointer < len(word) && pointer >= len(wordplus) {
+		return false
+	}
+}
+return true
