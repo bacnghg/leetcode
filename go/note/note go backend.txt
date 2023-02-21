@@ -1,0 +1,324 @@
+
+// Leetcode
+// problem leetcode 540. Single Element in a Sorted Array
+// You are given a sorted array consisting of only integers where every element appears exactly twice, except for one element which appears exactly once.
+// Return the single element that appears only once.
+// Your solution must run in O(log n) time and O(1) space.
+func singleNonDuplicate(nums []int) int {
+	for i := 0; i < len(nums); i++ {
+		j := i + 1
+		valueLeft := nums[i]
+		if j == len(nums) {
+			return nums[j-1]
+		} else {
+			valueRight := nums[j]
+			if valueLeft != valueRight {
+				return nums[i]
+			}
+			i++
+		}
+	}
+	return nums[0]
+}
+
+
+
+1.
+- Cài Extension Go của Google cho VScode
+
+- Quy định về viết testcode:
+	+ file test: name_file_test.go 
+		VD: file: create_article.go  => file test: create_article_test.go
+	+ Function: Bắt đầu bằng Test.
+		VD: TestCreateArticle
+	
+	=> VSCode sau khi cài extendsion Go sẽ tự động nhận dạng và hiển thị run test/debug test cho dev dễ làm việc.
+	
+	=====>>>>> File test có thể tạo thành 1 folder riêng, thoải mái không phải gọi gì cả
+	
+- Sử dụng các hàm Equal, execEqual trong thư viện test thay cho việc check/so sánh các giá trị
+	VD: a := assert.New(t)
+	a.Equal(http.MethodGet, req.Method, "HTTP request method error")
+	a.Equal(http.StatusOK, w.Code, "HTTP request status code error")
+	
+	
+
+Cách viết unitest cho rest api trong golang
+Tham khảo link: https://blog.vietnamlab.vn/cach-viet-unit-test-cho-rest-api-trong-golang/
+
+Phương thức test trong Golang sẽ nhận vào tham số và có thể sẽ sử dụng 1 số phương thức như bên dưới:
+
+Tham số đầu tiên và duy nhất phải là t *testing.T
+t.Log có thể được dùng nếu ta có nhu cầu in ra thông tin, sau đó tiếp tục chạy tiếp
+t.Fail được dùng để đánh dấu là hàm test đã bị fail nhưng vẫn tiếp tục chạy tiếp.
+t.Error là cách viết gọn, nó tương đương với việc gọi t.Log, sau đó gọi thêm t.Fail. Nếu hàm này được dùng khi ta muốn chạy tiếp để debug thêm thông tin. t.Errorf cũng tương tự như t.Error nhưng được hỗ trợ thêm fomart khi log thông tin.
+t.Fatal được dùng khi log thông tin ra, đánh dấu là test đã bị fail và dừng luôn tại đó vì nếu có chạy tiếp thì không có gì đáng quan tâm cả.
+
+
+
+Chạy file test (chạy check tất cả các function test): run toàn bộ test case
+	go test -v 
+Nếu muốn chạy 1 testcase cụ thể dùng lệnh:
+	go test -v -run <Test function name>	
+
+- Coverage for golang 
+cd vào thư mục test, chạy lệnh:
+		- go test -cover fmt
+		
+Cách output HTML for Go code Coverage
+	Chạy lệnh: 
+		go test ./...
+	Chạy tiếp lệnh để tạo file coverage.out
+		go test ./... -coverprofile coverage.out
+	Coverage profile content
+		cat coverage.out
+	Coverage output as HTML 
+		go tool cover -html coverage.out -o coverage.html
+		
+
+2. Variable and function
+
+	* Cú pháp khai báo biến
+		var abc int 		// cách 1
+		abc = 10
+		
+		var abc int = 10	// cách 2
+		
+		abc := 10.5 		// cách 3 - linh động kiểu dữ liệu
+
+	* Phạm vi sử dụng global, block scope
+		Trong package, trong block 
+		Biến/Hàm khai báo  viết hoa thì được sử dụng trong cùng 1 package
+		
+		Đặt tên bến, hàm: dùng Camel Case
+						Chữ thường đầu: Private
+						Chữ hoa đầu: Public
+		
+		Cách chuyển kiểu int sang float32: float32(i)
+		
+	* Try/catch: Trong go không dùng try/catch để báo lỗi, mà dùng error. Mặc định error là nil 
+
+	* Ví dụ:
+	
+	func main() {
+		var whatToSay string
+		var i int
+
+		whatToSay = "Goodbye, world"
+		fmt.Println((whatToSay))
+		i = 10
+
+		fmt.Println("i is set to: ", i)
+
+		whatToSay = saySomething()
+		fmt.Println(whatToSay)
+
+		s := "12345"
+		// s := "123abc"
+
+		// convert string to int
+		i, err := strconv.Atoi(s)
+		if err != nil {
+			// ... handle error
+			fmt.Println("Error data string convert: ", err)
+		}
+		fmt.Println("string to int i: ", i)
+
+		// var number string
+		str := addString("Hello", "World")
+		fmt.Println("Add value: ", str)
+
+		// add number
+		// var number int
+		number := addNumber(10, 20)
+
+		fmt.Println("number: ", number)
+
+		// return 2 value
+		fmt.Println(saySomethingValue())
+
+	}
+
+	func saySomething() string {
+		return "Waoooooooooooooo"
+	}
+
+	// add function string
+	func addString(a, b string) string {
+		return a + b
+	}
+
+	// add function number
+	func addNumber(a, b int) int {
+		return a + b
+	}
+
+	// return 2 value
+	func saySomethingValue() (string, string) {
+		a := "Viet"
+		b := "Nam"
+		return a, b
+	}
+
+
+
+3. Pointer
+
+	Con trỏ: var a int = 10;
+			var b *int = &a			// b trỏ tới địa chỉ a
+			
+	Ví dụ: 
+		var a int = 12				
+		var b int = a				// gán b = a
+		fmt.Println(a, b)			// 12, 12
+		a = 20						// đặt lại giá trị của a.
+		fmt.Println(a, b)			// 20, 12		// b không thay đổi, dù a thay đổi.
+		
+	Vậy muốn b thay đổi theo a, thì phải gán giá trị của b theo địa chỉ của a (pointer)
+		var a int = 12				
+		var b *int = &a				// gán b = a
+		fmt.Println(a, b)			// 12, 0xc00000eb88
+		fmt.Println(a, *b)			// 12 12				// *b là giá trị
+		a = 20						// đặt lại giá trị của a.
+		fmt.Println(a, b)			// 20, 0xc00000eb88		// b không thay đổi, dù a thay đổi.
+		fmt.Println(a, *b)			// 20 20
+		fmt.Println(&a, b)			// 0xc00000eb88 0xc00000eb88			// &a: địa chỉ của a, chính là b
+
+	=> Muốn lấy giá trị của b thì dùng *b
+	=> Muốn lấy địa chỉ thì dùng & 
+		
+		
+		
+4. Array - slice - mảng
+	Aray: Khai báo: 
+		names := []string{"one", "two", "three"}
+		number := []int{1, 2, 3, 5}
+		
+		Mảng 3 phần tử, kiểu số nguyên có sẵn phần tử
+			pArr := [3]int{1, 2, 3}
+		Mảng 3 phần tử, kiểu int không có sẵn phần tử
+			var pArr [3]int			// golang sẽ tự cấp phát 3 giá trị mặc định [0, 0, 0]
+			VD:
+			var nameArray [5]string
+			nameArray[0] = "Cowell"
+			nameArray[1] = "Asia"
+			nameArray[2] = "VN"
+			fmt.Println("name: ", nameArray, len(nameArray))
+			fmt.Printf("%v, %T\n ", nameArray, nameArray)
+			
+					
+	Slice: (thực ra cũng là array)
+		var mySlice []int
+		VD:
+			mySlice = append(mySlice, 1)
+			mySlice = append(mySlice, 3)
+			mySlice = append(mySlice, 2)
+			mySlice = append(mySlice, 5)
+			log.Println(mySlice)		// 2023/02/21 17:31:04 [1 3 2 5]
+			sort.Ints(mySlice)
+			fmt.Println(mySlice)		// [1 2 3 5]
+
+			
+			var mySlice []string
+			mySlice = append(mySlice, "One")
+			mySlice = append(mySlice, "Two")
+			mySlice = append(mySlice, "Three")
+			mySlice = append(mySlice, "Four")
+			mySlice = append(mySlice, "Five")
+			mySlice = append(mySlice, "Six")
+			log.Println(mySlice)			// 2023/02/21 17:34:47 [One Two Three Four Five Six]
+			
+			
+	Map:
+		// Khởi tạo map, với key và value kiểu string
+			myMap := make(map[string]string)
+			// gán giá trị theo key, value
+			myMap["cat"] = "Tom"
+			myMap["dog"] = "John"
+
+			fmt.Println(myMap["cat"])
+			fmt.Println(myMap["dog"])
+			fmt.Println(myMap)// Khởi tạo map, với key và value kiểu string - int
+			myMap2 := make(map[string]int)
+			myMap2["First"] = 1
+			myMap2["Second"] = 2
+			myMap2["Third"] = 3
+			fmt.Println(myMap2, myMap2["First"], myMap2["Second"], myMap2["Third"])
+			
+			
+	Sử dụng Map và Struct:	
+	
+		type User struct {
+			FirstName string
+			LastName  string
+			Age       int
+		}
+
+		func main() {
+			// Khởi tạo map, với key - string và value kiểu user
+			myMap := make(map[string]User)
+			// gán giá trị theo key, value
+			me := User{
+				FirstName: "Bac",
+				LastName:  "Ng",
+				Age:       20,
+			}
+
+			myMap["me"] = me
+			log.Println(myMap["me"].FirstName)
+			log.Println(myMap["me"].LastName)
+			log.Println(myMap["me"].Age)
+		}
+
+4. Struct: Kiểu dữ liệu tự định nghĩa
+		Khai báo kiểu:
+			
+		type User struct {
+			FirstName   string
+			LastName    string
+			PhoneNumber string
+			Age         int
+			BirthDate   time.Time
+		}
+
+		Sử dụng kiểu:
+
+		func main() {
+			user := User{
+				FirstName: "Cowell",
+				LastName:  "Asia",
+			}
+
+			log.Println("user: ", user)
+			log.Println("user: ", user.FirstName, user.LastName, user.BirthDate)
+		}
+		
+	
+	Sử dụng Struct với Function:	Cái này dùng nhiều trong Golang 
+	
+	// khai báo struct
+	type myStruct struct {
+		FirstName string			
+	}
+
+	// Khai báo hàm thuộc kiểu struct
+	func (m *myStruct) printFirstName() string {
+		return m.FirstName				// nên được gọi như này
+	}
+
+	func main() {
+
+		var myVar myStruct
+		myVar.FirstName = "Bac Ng"
+		myVar2 := myStruct{
+			FirstName: "Golang",
+		}
+
+		fmt.Println("myVar is set to: ", myVar.FirstName)
+		fmt.Println("myVar2 is set to: ", myVar2.FirstName)
+
+		fmt.Println("myVar using printFirstName: ", myVar.printFirstName())			// Sẽ gọi như này
+		fmt.Println("myVar2  using printFirstName: ", myVar2.printFirstName())
+	}
+	
+
