@@ -1,3 +1,8 @@
+Goroutines là gì?
+
+Goroutines là một trong những tính năng đặc biệt nhất của Golang để lập trình Concurrency cực kỳ đơn giản. 
+Goroutines bản chất là các hàm (function) hay method được thực thi một các độc lập và đồng thời nhưng vẫn có thể kết nối với nhau.
+Một cách ngắn gọn, những thực thi đồng thời được gọi là Goroutines trong Go (Golang).
 
 // Leetcode
 // problem leetcode 540. Single Element in a Sorted Array
@@ -270,7 +275,7 @@ Cách output HTML for Go code Coverage
 			log.Println(myMap["me"].Age)
 		}
 
-4. Struct: Kiểu dữ liệu tự định nghĩa
+5. Struct: Kiểu dữ liệu tự định nghĩa
 		Khai báo kiểu:
 			
 		type User struct {
@@ -294,7 +299,7 @@ Cách output HTML for Go code Coverage
 		}
 		
 	
-	Sử dụng Struct với Function:	Cái này dùng nhiều trong Golang 
+6	Sử dụng Struct với Function:	Cái này dùng nhiều trong Golang 
 	
 	// khai báo struct
 	type myStruct struct {
@@ -322,3 +327,101 @@ Cách output HTML for Go code Coverage
 	}
 	
 
+7. Interfaces
+
+
+	type Animal interface {
+		Says() string
+		NumberOfLegs() int
+	}
+
+	type Dog struct {
+		Name  string
+		Breed string
+	}
+
+	type Gorilla struct {
+		Name          string
+		Color         string
+		NumberOfTeeth int
+	}
+
+	func PrintInfor(a Animal) {
+		fmt.Println("This animal says", a.Says(), "and has", a.NumberOfLegs(), "legs")
+	}
+	func main() {
+
+		dog := Dog{
+			Name:  "Samson",
+			Breed: "German Shephered",
+		}
+
+		PrintInfor(&dog)
+
+		gorilla := Gorilla{
+			Name:          "Tanala",
+			Color:         "Black",
+			NumberOfTeeth: 38,
+		}
+
+		PrintInfor(&gorilla)
+
+	}
+
+	func (d *Dog) Says() string {
+		return "Graoooooooooooooooo"
+	}
+
+	func (d *Dog) NumberOfLegs() int {
+		return 4
+	}
+
+	func (g *Gorilla) Says() string {
+		return "Waoooooooooo Gurrrrrrrrrrrrrr"
+	}
+
+	func (g *Gorilla) NumberOfLegs() int {
+		return 2
+	}
+
+
+8. Packages
+	// create folder package 
+	// create file helpers.go
+	package helpers		
+	type Dog struct {
+		Name  string
+		Breed string
+		Age   int
+	}
+
+	// in file main.go
+	package main
+
+	import (
+		"log"
+		"go.mod/helpers"
+	)
+
+	func main() {
+
+		var dog helpers.Dog
+		dog.Name = "Samson"
+		dog.Breed = "German Shephered"
+		dog.Age = 19
+
+		log.Println(dog)
+
+	}
+
+
+II. Build app caas backend dtpt
+- run docker file:
+Cd vào folder 
+Chạy lệnh
+	docker-compose build 
+	docker-compose up
+	
+// cd mysql
+	mysql -udtpt -pdtpt
+	show databases; 	// list db
