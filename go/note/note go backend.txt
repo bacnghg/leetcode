@@ -529,3 +529,14 @@ https://github.com/bacnghg/app-base-go/commit/24b3a5d3ce9da638137f788ff9380f902d
 6. Building Template cache test 
 https://github.com/bacnghg/app-base-go/pull/2/commits/9ee3e1cd0a1d7f3b6d0bb0d05c6a1ca7f2add3b6
 //building cache for layout dùng chung 
+
+
+Nơi đề nghị tạm trú:
+Ghi tới Vinhomes Park
+
+Không ghi nơi tạm trú, chỉ ghi nơi thường trú (mục 7 và 9)
+
+Nhập khẩu con ở quê.
+Ký, giấy trước 
+
+Nộp hồ sơ đăng ký thường trú
