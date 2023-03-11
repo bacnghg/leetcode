@@ -44,3 +44,13 @@ func (pq *PQ) Pop() interface{} {
 	*pq = (*pq)[:n-1]
 	return tmp
 }
+
+Nơi đề nghị tạm trú:
+Ghi tới Vinhomes Park
+
+Không ghi nơi tạm trú, chỉ ghi nơi thường trú (mục 7 và 9)
+
+Nhập khẩu con ở quê.
+Ký, giấy trước 
+
+Nộp hồ sơ đăng ký thường trú
